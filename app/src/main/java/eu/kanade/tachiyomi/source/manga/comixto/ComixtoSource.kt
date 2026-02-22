@@ -24,7 +24,10 @@ class ComixtoSource : HttpSource() {
     override val lang = "en"
     override val supportsLatest = true
 
-    private val json = Json { ignoreUnknownKeys = true; isLenient = true }
+    private val json = Json {
+        ignoreUnknownKeys = true
+        isLenient = true
+    }
 
     override fun headersBuilder(): Headers.Builder = super.headersBuilder().apply {
         add("Referer", baseUrl)
