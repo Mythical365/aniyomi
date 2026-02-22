@@ -20,6 +20,7 @@ import kotlinx.coroutines.runBlocking
 import tachiyomi.domain.source.manga.model.StubMangaSource
 import tachiyomi.domain.source.manga.repository.MangaStubSourceRepository
 import tachiyomi.domain.source.manga.service.MangaSourceManager
+import eu.kanade.tachiyomi.source.manga.comixto.ComixtoSource
 import tachiyomi.source.local.entries.manga.LocalMangaSource
 import uy.kohesive.injekt.Injekt
 import uy.kohesive.injekt.api.get
@@ -51,6 +52,7 @@ class AndroidMangaSourceManager(
         scope.launch {
             extensionManager.installedExtensionsFlow
                 .collectLatest { extensions ->
+                    val comixto = ComixtoSource()
                     val mutableMap = ConcurrentHashMap<Long, MangaSource>(
                         mapOf(
                             LocalMangaSource.ID to LocalMangaSource(
@@ -58,6 +60,7 @@ class AndroidMangaSourceManager(
                                 Injekt.get(),
                                 Injekt.get(),
                             ),
+                            comixto.id to comixto,
                         ),
                     )
                     extensions.forEach { extension ->
